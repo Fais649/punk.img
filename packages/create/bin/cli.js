@@ -29,7 +29,7 @@ async function main() {
 
 	console.log(`✨ Creating ${projectName}...`);
 
-	const repo = "fais649/punk-img/packages/server";
+	const repo = "fais649/punk.img/packages/server";
 	console.log(`📥 Cloning starter from https://github.com/${repo} ...`);
 
 	const emitter = degit(repo, { cache: false, force: true });
