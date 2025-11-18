@@ -8,7 +8,7 @@ import type {
 	FileMetadata,
 	FolderNode,
 	ImageRequestOptions
-} from "@punk-img/sdk";
+} from "@punk.sys/img-sdk";
 
 const fastify = Fastify({ logger: true });
 
