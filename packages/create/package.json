@@ -1,6 +1,6 @@
 {
 	"name": "@punk.sys/img-server-create",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"type": "module",
 	"bin": {
 		"create-punk-img": "bin/cli.js"
