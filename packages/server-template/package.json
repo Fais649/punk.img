@@ -1,15 +1,12 @@
 {
-	"name": "@punk.sys/img-server",
-	"version": "0.1.1",
+	"name": "new-project",
+	"version": "0.1.0",
 	"main": "dist/index.js",
 	"types": "dist/index.d.ts",
 	"scripts": {
 		"dev": "bun run src/server.ts",
 		"build": "bun build src/server.ts --target=bun --outdir dist",
 		"prod": "bun --bun run dist/server.js"
-	},
-	"publishConfig": {
-		"access": "public"
 	},
 	"devDependencies": {
 		"@types/bun": "latest"

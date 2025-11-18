@@ -7,7 +7,7 @@
     },
     "packages/create": {
       "name": "@punk.sys/img-server-create",
-      "version": "0.1.0",
+      "version": "0.1.2",
       "bin": {
         "create-punk-img": "bin/cli.js",
       },
@@ -19,7 +19,7 @@
     },
     "packages/sdk": {
       "name": "@punk.sys/img-sdk",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "dependencies": {
         "@types/node": "^24.10.1",
         "zod": "^3.22.2",
@@ -33,10 +33,26 @@
     },
     "packages/server": {
       "name": "@punk.sys/img-server",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "dependencies": {
         "@fastify/static": "^8.3.0",
         "@punk.sys/img-sdk": "workspace:*",
+        "fastify": "^5.6.2",
+        "sharp": "^0.34.5",
+      },
+      "devDependencies": {
+        "@types/bun": "latest",
+      },
+      "peerDependencies": {
+        "typescript": "^5",
+      },
+    },
+    "packages/server-template": {
+      "name": "new-project",
+      "version": "0.1.0",
+      "dependencies": {
+        "@fastify/static": "^8.3.0",
+        "@punk.sys/img-sdk": "^0.1.1",
         "fastify": "^5.6.2",
         "sharp": "^0.34.5",
       },
@@ -238,6 +254,8 @@
     "minimatch": ["minimatch@10.1.1", "", { "dependencies": { "@isaacs/brace-expansion": "^5.0.0" } }, "sha512-enIvLvRAFZYXJzkCYG5RKmPfrFArdLv+R+lbQ53BmIMLIry74bjKzX6iHAm8WYamJkhSSEabrWN5D97XnKObjQ=="],
 
     "minipass": ["minipass@7.1.2", "", {}, "sha512-qOOzS1cBTWYF4BH8fVePDBOO9iptMnGUEZwNc/cMWnTV2nVLZ7VoNWEPHkYczZA0pdoA7dl6e7FL659nX9S2aw=="],
+
+    "new-project": ["new-project@workspace:packages/server-template"],
 
     "on-exit-leak-free": ["on-exit-leak-free@2.1.2", "", {}, "sha512-0eJJY6hXLGf1udHwfNftBqH+g73EU4B504nZeKpz1sYRKafAghwxEJunB2O7rDZkL4PGfsMVnTXZ2EjibbqcsA=="],
 
