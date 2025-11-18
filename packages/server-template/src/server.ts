@@ -1,12 +1,21 @@
 import Fastify from "fastify";
+import crypto from "crypto";
 import fs from "fs/promises";
 import path from "path";
 import sharp, { type FitEnum } from "sharp";
-import type { ImageTreeResponse, FileMetadata, FolderNode, ImageRequestOptions } from "@punk-img/sdk";
+import type {
+	ImageTreeResponse,
+	FileMetadata,
+	FolderNode,
+	ImageRequestOptions
+} from "@punk-img/sdk";
 
 const fastify = Fastify({ logger: true });
 
 const IMAGES_DIR = path.resolve("./images");
+const CACHE_DIR = path.resolve("./.cache/images");
+
+await fs.mkdir(CACHE_DIR, { recursive: true });
 
 async function buildTree(
 	dir: string,
@@ -78,6 +87,7 @@ fastify.get("/api/images", async (request, reply) => {
 		return { error: "Missing 'path' query parameter." };
 	}
 
+	// Validate and locate source image
 	const imagePath = path.join(IMAGES_DIR, query.path);
 	const exists = await fs
 		.access(imagePath)
@@ -109,6 +119,37 @@ fastify.get("/api/images", async (request, reply) => {
 
 	const bg = query.bg || "black";
 
+	const cacheKey = crypto
+		.createHash("md5")
+		.update(
+			JSON.stringify({
+				path: imagePath,
+				width,
+				height,
+				quality,
+				format: selectedFormat,
+				fit,
+				bg
+			})
+		)
+		.digest("hex");
+
+	const cachedFile = path.join(CACHE_DIR, `${cacheKey}.bin`);
+
+	try {
+		const cachedBuffer = await fs.readFile(cachedFile);
+		const contentType = selectedFormat
+			? `image/${selectedFormat === "jpg" ? "jpeg" : selectedFormat}`
+			: "image/*";
+
+		reply
+			.header("Content-Type", contentType)
+			.header("Cache-Control", "public, max-age=2592000, immutable")
+			.send(cachedBuffer);
+		return;
+	} catch {
+	}
+
 	let transformer = sharp(imagePath).resize({
 		width,
 		height,
@@ -124,12 +165,17 @@ fastify.get("/api/images", async (request, reply) => {
 	}
 
 	const buffer = await transformer.toBuffer();
+
+	await fs.writeFile(cachedFile, buffer);
+
 	const contentType = selectedFormat
 		? `image/${selectedFormat === "jpg" ? "jpeg" : selectedFormat}`
 		: "image/*";
 
-	reply.header("Content-Type", contentType);
-	reply.send(buffer);
+	reply
+		.header("Content-Type", contentType)
+		.header("Cache-Control", "public, max-age=2592000, immutable")
+		.send(buffer);
 });
 
 fastify.register(import("@fastify/static"), {
