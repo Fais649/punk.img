@@ -1,0 +1,19 @@
+{
+	"name": "@punk.sys/img-server-create",
+	"version": "0.1.0",
+	"type": "module",
+	"bin": {
+		"create-punk-img": "bin/cli.js"
+	},
+	"files": [
+		"bin"
+	],
+	"publishConfig": {
+		"access": "public"
+	},
+	"dependencies": {
+		"degit": "^2.8.4",
+		"fs-extra": "^11.2.0",
+		"prompts": "^2.4.2"
+	}
+}

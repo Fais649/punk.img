@@ -1,0 +1,24 @@
+{
+	"name": "@punk.sys/img-sdk",
+	"version": "0.1.1",
+	"type": "module",
+	"main": "dist/index.js",
+	"types": "dist/index.d.ts",
+	"exports": "./dist/index.js",
+	"scripts": {
+		"build": "bun build src/index.ts --outdir dist --minify && tsc --emitDeclarationOnly --declaration --outDir dist"
+	},
+	"dependencies": {
+		"@types/node": "^24.10.1",
+		"zod": "^3.22.2"
+	},
+	"publishConfig": {
+		"access": "public"
+	},
+	"devDependencies": {
+		"@types/bun": "latest"
+	},
+	"peerDependencies": {
+		"typescript": "^5.9.3"
+	}
+}
